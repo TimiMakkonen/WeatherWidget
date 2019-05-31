@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style>
+
+      #weatherWidget {
+        width: 400px;
+        height: 200px;
+        background-color: lightblue;
+        font-family: Verdana, sans-serif;
+        border-radius: 20px;
+      }
+
+      #topArea {
+        height: 10%;
+        position: relative;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+      }
+
+      #bottomArea {
+        height: 20%;
+        position: relative;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+      }
+
+      .mainInfo {
+        height: 70%;
+        width: 100%;
+        position: relative;
+      }
+
+      #weatherContainer {
+        position: absolute;
+        height: 100%;
+        width: 50%;
+        text-align: center;
+      }
+
+      .rightColumn {
+        height: 100%;
+        width: 50%;
+        left: 50%;
+        top: 0%;
+        position: absolute;
+      }
+
+      .weatherslide {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+      }
+
+      .weatherDate {
+        position: absolute;
+        width: 100%;
+        height: 30%;
+        top: 0%;
+        text-align: center;
+        font-size: 120%;
+      }
+
+      .weatherIcon {
+        position: absolute;
+        width: 40%;
+        height: 61.54%;
+        top: 20%;
+        left: 30%;
+      }
+
+      .temperature {
+        position:absolute;
+        width: 100%;
+        height: 46.15%;
+        top: 75%;
+        font-size: 200%;
+      }
+
+      #cityName {
+        position: absolute;
+        width: 90%;
+        height: 15%;
+        top: 10%;
+        left: 2%;
+        padding: 3% 3%;
+        font-size: 120%;
+        text-align: center;
+      }
+
+      #locationForm {
+        position: absolute;
+        width: 90%;
+        height: 15%;
+        top: 70%;
+        left: 2%;
+        padding: 3% 3%;
+        font-size: 18px;
+        text-align: center;
+      }
+
+      #locaField {
+        border-radius: 10px;
+        outline: none;
+        text-align:center;
+        background-color: rgba(255,255,224,0.5);
+        border-style: none;
+        transition: background-color 1s ease;
+      }
+
+      #locaField:focus {
+        background-color: rgb(255,255,224);
+      }
+
+      #locaBtn {
+        cursor: pointer;
+        position: absolute;
+        height: 80%;
+        width: 8%;
+        top: 10%;
+        left: 91%;
+        border-radius: 50%;
+        text-align: center;
+        border-style: none;
+        padding: 0px;
+        color: white;
+        background-color: #bbb;
+        transition: background-color 1s ease;
+      }
+
+      #locaBtn:hover {
+        background-color: #717171;
+      }
+
+      #daySelectors {
+        position: absolute;
+        width: 50%;
+        text-align:center;
+      }
+
+      .dot {
+        cursor: pointer;
+        height: 15px;
+        width: 15px;
+        margin: 10px 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 1s ease;
+      }
+
+      .active, .dot:hover {
+        background-color: #717171;
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <div id="weatherWidget">
+        <!-- useless top area of the widget -->
+        <div id="topArea"></div>
+        <!-- area with the main information, location and location bar -->
+        <div class="mainInfo">
+          <!-- container of the weather slides (left side of the widget) -->
+          <div id="weatherContainer">
+            <!-- current weather slide -->
+            <div id="currentWeather" class="weatherSlide">
+              <div id="currentDate" class="weatherDate">??:?? ??/??</div>
+              <img id="currentIcon" class="weatherIcon" src="" alt="weather icon not available">
+              <div id="currentTemperature" class="temperature">?</div>
+            </div>
+            <!-- bunch of slides -->
+            <div class="weatherSlide" style="display:none">
+              <div class="weatherDate">??:?? ??/??</div>
+              <img class="weatherIcon" src="" alt="weather icon not available">
+              <div class="temperature">?</div>
+            </div>
+            <div class="weatherSlide" style="display:none">
+              <div class="weatherDate">??:?? ??/??</div>
+              <img class="weatherIcon" src="" alt="weather icon not available">
+              <div class="temperature">?</div>
+            </div>
+            <div class="weatherSlide" style="display:none">
+              <div class="weatherDate">??:?? ??/??</div>
+              <img class="weatherIcon" src="" alt="weather icon not available">
+              <div class="temperature">?</div>
+            </div>
+            <div class="weatherSlide" style="display:none">
+              <div class="weatherDate">??:?? ??/??</div>
+              <img class="weatherIcon" src="" alt="weather icon not available">
+              <div class="temperature">?</div>
+            </div>
+            <div class="weatherSlide" style="display:none">
+              <div class="weatherDate">??:?? ??/??</div>
+              <img class="weatherIcon" src="" alt="weather icon not available">
+              <div class="temperature">?</div>
+            </div>
+            <div class="weatherSlide" style="display:none">
+              <div class="weatherDate">??:?? ??/??</div>
+              <img class="weatherIcon" src="" alt="weather icon not available">
+              <div class="temperature">?</div>
+            </div>
+
+          </div>
+          <!-- right side of the widget -->
+          <div class="rightColumn">
+            <div id="cityName">City, Country
+            </div>
+            <div id="locationForm">
+              <input id="locaField" type="text" placeholder="Enter your location" name="loca" value="">
+            </div>
+          </div>
+
+        </div>
+        <!-- bottom area with all the buttons -->
+        <div id="bottomArea">
+          <div id="daySelectors">
+              <span class="dot" onclick="showSlide(0)"></span>
+              <span class="dot" onclick="showSlide(1)"></span>
+              <span class="dot" onclick="showSlide(2)"></span>
+              <span class="dot" onclick="showSlide(3)"></span>
+              <span class="dot" onclick="showSlide(4)"></span>
+              <span class="dot" onclick="showSlide(5)"></span>
+              <span class="dot" onclick="showSlide(6)"></span>
+          </div>
+          <button id="locaBtn" type="button" name="loc">Go!</button>
+        </div>
+
+      <!-- <button id="manualLoc" type="button" name="manualLoc">Manual Check</button> -->
+    </div>
+
+    <script type="text/javascript">
+
+      // API key to access OpenWeatherMap weather data
+      const APIKey = "2b3683bf8df30ea555a357e332f1249b";
+
+      // declaration of data variables
+      let weatherData;
+      let forecastData;
+
+      // event listeners
+      // document.getElementById("manualLoc").addEventListener("click", getLocation);
+      document.getElementById("locaBtn").addEventListener("click", userInputWeather);
+      document.getElementById("locaField").addEventListener("keyup", enterPress);
+
+      // press enter to submit input
+      function enterPress(event) {
+        if (event.keyCode === 13) {
+          userInputWeather();
+        }
+      }
+
+      // to find location and start checkWeather process automatically
+      function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(checkWeather);
+        } else {
+          document.getElementById("cityName").innerHTML = "Manually enter you location";
+        }
+      }
+
+      // to find the url required to get weather data
+      function checkWeather(coordinates) {
+          let lati = coordinates.coords.latitude;
+          let longi = coordinates.coords.longitude;
+
+          var weatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + lati + "&lon=" + longi + "&APPID=" + APIKey;
+          var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lati + "&lon=" + longi + "&APPID=" + APIKey;
+
+          requestWeatherData(weatherUrl, updateWInfo, weatherData);
+          requestWeatherData(forecastUrl, updateFInfo, forecastData);
+      }
+
+      // to parse obtained json and start updating widget with gained data
+      function requestWeatherData(dataUrl, updateInfo, dataObj) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            dataObj = JSON.parse(this.responseText);
+            updateInfo(dataObj);
+          }
+        };
+        xmlhttp.open("GET", dataUrl, true);
+        xmlhttp.send();
+      }
+
+      // function to start the manual weather query
+      function userInputWeather() {
+          let locaField = document.getElementById("locaField");
+          if (locaField.value === "") {
+          } else {
+            var weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + locaField.value + "&APPID=" + APIKey;
+            var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + locaField.value + "&APPID=" + APIKey;
+            requestWeatherData(weatherUrl, updateWInfo, weatherData);
+            requestWeatherData(forecastUrl, updateFInfo, forecastData);
+            locaField.value = "";
+          }
+      }
+
+      // to update the current weather
+      function updateWInfo(weatherData) {
+          document.getElementById("cityName").innerHTML = weatherData.name + ", " + weatherData.sys.country;
+          document.getElementById("currentIcon").src = "https://openweathermap.org/img/w/" + weatherData.weather[0].icon + ".png"
+          document.getElementById("currentTemperature").innerHTML = Math.round(parseFloat(weatherData.main.temp) - 273.15) + "°";
+          document.getElementById("currentDate").innerHTML = timeConv(weatherData.dt);
+
+          updateTimeLayout(weatherData.weather[0].icon[2]);
+      }
+
+      // to update the current forecast
+      function updateFInfo(forecastData) {
+          var numOfSlides = document.getElementsByClassName("weatherSlide").length;
+          var weatherIcons = document.getElementsByClassName("weatherIcon");
+          var temperatures = document.getElementsByClassName("temperature");
+          var weatherDates = document.getElementsByClassName("weatherDate");
+          for (let i = 1; i < numOfSlides; i++) {
+              weatherIcons[i].src = "https://openweathermap.org/img/w/" + forecastData.list[i-1].weather[0].icon + ".png"
+              temperatures[i].innerHTML = Math.round(parseFloat(forecastData.list[i-1].main.temp) - 273.15) + "°";
+              weatherDates[i].innerHTML = timeConv(forecastData.list[i-1].dt);
+          }
+      }
+
+      // to conver unix into "hh:mm weekday day/month"
+      function timeConv(unixTime) {
+          let date = new Date(unixTime*1000);
+          let hours = date.getHours();
+          let minutes = "0" + date.getMinutes();
+          let days = "0" + date.getDate();
+          let months = "0" + (date.getMonth() + 1);
+          let weekday = date.getDay() - 1;
+          let weekdayArr = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+          return hours + ":" + minutes.substr(-2) + " " + weekdayArr[weekday] + " " + days.substr(-2) + "/" + months.substr(-2);
+      }
+
+      // to switch between weather slides
+      function showSlide(n) {
+        var slides = document.getElementsByClassName("weatherSlide");
+        var dots = document.getElementsByClassName("dot");
+
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (let i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[n].style.display = "block";
+        dots[n].className += " active";
+
+        if (n == 0) {
+            let iconUrl = document.getElementsByClassName("weatherIcon")[n].src;
+            console.log(iconUrl);
+            let dayTime = iconUrl[35];
+            console.log(dayTime);
+            updateTimeLayout(dayTime);
+        } else {
+            let iconUrl = document.getElementsByClassName("weatherIcon")[n].src;
+            console.log(iconUrl);
+            let dayTime = iconUrl[35];
+            console.log(dayTime);
+            updateTimeLayout(dayTime);
+        }
+      }
+
+      // to update the colourscheme for day/night
+      function updateTimeLayout(timeOfDay) {
+        if (timeOfDay == 'd') {
+            document.getElementById("weatherWidget").style.backgroundColor = "lightblue";
+            document.getElementById("weatherWidget").style.color = "";
+        } else {
+            document.getElementById("weatherWidget").style.backgroundColor = "rgb(19,24,98)";
+            document.getElementById("weatherWidget").style.color = "rgb(190,169,222)";
+            document.getElementById("locaField").style.BackgroundColor = "rgba(190,169,222, 0.8)";
+        }
+      }
+
+      // initial weather data from London
+      requestWeatherData("https://api.openweathermap.org/data/2.5/weather?q=London" + "&APPID=" + APIKey, updateWInfo, weatherData);
+      requestWeatherData("https://api.openweathermap.org/data/2.5/forecast?q=London" + "&APPID=" + APIKey, updateFInfo, forecastData);
+
+      // initial automatic weather query/request
+      getLocation();
+
+    </script>
+
+  </body>
+</html>
